@@ -1,5 +1,7 @@
+// app/paste/[id]/page.tsx
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
+import ShareButton from "@/components/ShareButton";
 import { Metadata } from "next";
 
 interface PageProps {
@@ -8,6 +10,7 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const resolvedParams = await params;
+
   const paste = await prisma.paste.findUnique({
     where: { id: resolvedParams.id },
   });
@@ -24,7 +27,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function PastePage({ params }: PageProps) {
-  // Await the params
   const resolvedParams = await params;
 
   const paste = await prisma.paste.findUnique({
@@ -37,13 +39,16 @@ export default async function PastePage({ params }: PageProps) {
 
   return (
     <main className="container mx-auto px-4 py-8">
-      <div className="mb-4">
-        <h1 className="text-2xl font-bold mb-2">{paste.title || "Untitled"}</h1>
-        <p className="text-gray-700">Created at: {paste.createdAt.toLocaleString()}</p>
+      <div className="mb-4 flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold mb-2 text-neutral-300">{paste.title || "Untitled"}</h1>
+          <p className="text-neutral-400">Created at: {paste.createdAt.toLocaleString()}</p>
+        </div>
       </div>
-      <pre className="p-4 rounded overflow-x-auto w-full min-h-80 sm:min-h-40 bg-neutral-700">
-        <code>{paste.content}</code>
+      <pre className="p-4 bg-neutral-700 rounded overflow-x-auto">
+        <code className="text-neutral-300">{paste.content}</code>
       </pre>
+      <ShareButton id={paste.id} />
     </main>
   );
 }

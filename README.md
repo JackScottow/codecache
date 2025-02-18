@@ -1,6 +1,6 @@
 # CodeCache
 
-A minimalist code and text sharing platform built with Next.js, TypeScript, and Prisma. Share code snippets and text with a clean, dark-themed interface.
+A minimalist code and text sharing platform à la pastebin built with Next.js, TypeScript, and Prisma. Share code snippets and text with a clean, dark-themed interface.
 
 ## Features
 

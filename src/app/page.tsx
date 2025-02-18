@@ -4,7 +4,7 @@ import RecentPastes from "@/components/RecentPastes";
 export default function HomePage() {
   return (
     <main className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8 text-center">CodeCache</h1>
+      <h1 className="text-3xl font-bold mb-8 text-center text-neutral-300">CodeCache</h1>
       <div className="grid md:grid-cols-2 gap-8">
         <div>
           <CreatePasteForm />
