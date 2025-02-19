@@ -1,60 +1,45 @@
 // app/paste/[id]/page.tsx
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
-import ShareButton from "@/components/ShareButton";
 import { Metadata } from "next";
 
-interface PageProps {
-  params:
-    | Promise<{
-        id: string;
-      }>
-    | {
-        id: string;
-      };
-}
+type PageProps = {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const resolvedParams = await params;
-
   const paste = await prisma.paste.findUnique({
     where: { id: resolvedParams.id },
   });
 
   if (!paste) {
-    return {
-      title: "Paste Not Found",
-    };
+    return { title: "Paste Not Found" };
   }
 
-  return {
-    title: paste.title || "Untitled Paste",
-  };
+  return { title: paste.title || "Untitled Paste" };
 }
 
-export default async function PastePage({ params }: PageProps) {
+export default async function PastePage({ params }: PageProps): Promise<React.ReactElement> {
   const resolvedParams = await params;
-
   const paste = await prisma.paste.findUnique({
     where: { id: resolvedParams.id },
   });
 
-  if (!paste) {
-    notFound();
-  }
+  if (!paste) notFound();
 
   return (
-    <main className="container mx-auto px-4 py-8">
-      <div className="mb-4 flex items-center justify-between">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="space-y-4">
         <div>
-          <h1 className="text-2xl font-bold mb-2 text-neutral-300">{paste.title || "Untitled"}</h1>
-          <p className="text-neutral-400">Created at: {paste.createdAt.toLocaleString()}</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{paste.title || "Untitled Paste"}</h1>
+          <p className="text-sm text-gray-500">Created on {paste.createdAt.toLocaleString()}</p>
+        </div>
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-4 overflow-x-auto">
+          <pre className="text-gray-900 dark:text-white whitespace-pre-wrap">{paste.content}</pre>
         </div>
       </div>
-      <pre className="p-4 bg-neutral-700 rounded overflow-x-auto">
-        <code className="text-neutral-300">{paste.content}</code>
-      </pre>
-      <ShareButton id={paste.id} />
-    </main>
+    </div>
   );
 }

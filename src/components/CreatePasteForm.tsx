@@ -6,58 +6,42 @@ import { useRouter } from "next/navigation";
 export default function CreatePasteForm() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setError("");
-
-    if (!content.trim()) {
-      setError("Content is required");
-      return;
-    }
+    setIsLoading(true);
 
     try {
-      const response = await fetch("/api/paste", {
+      const res = await fetch("/api/pastes", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title: title.trim() || null,
-          content: content.trim(),
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: title || null, content }),
       });
 
-      const data = await response.json();
+      if (!res.ok) throw new Error("Failed to create paste");
 
-      if (!response.ok) {
-        throw new Error(data.error || "Failed to create paste");
-      }
-
-      if (data.id) {
-        router.push(`/paste/${data.id}`);
-      } else {
-        throw new Error("No paste ID returned");
-      }
+      const data = await res.json();
+      router.push(`/paste/${data.id}`);
     } catch (error) {
-      console.error("Error creating paste:", error);
-      setError(error instanceof Error ? error.message : "Failed to create paste");
+      console.error("Failed to create paste:", error);
+      alert("Failed to create paste. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
-  };
+  }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4" aria-label="Create new paste">
+    <form onSubmit={onSubmit} className="space-y-4">
       <div>
-        <input type="text" placeholder="Title (optional)" id="title" value={title} onChange={(e) => setTitle(e.target.value)} className="w-full p-2 rounded bg-neutral-700 text-neutral-300" />
+        <input type="text" placeholder="Title (optional)" value={title} onChange={(e) => setTitle(e.target.value)} className="w-full px-4 py-2 rounded-lg border dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white" />
       </div>
       <div>
-        <textarea id="content" placeholder="Content" value={content} onChange={(e) => setContent(e.target.value)} className="w-full min-h-80 sm:min-h-40 p-2 rounded bg-neutral-700 text-neutral-300" required />
+        <textarea required placeholder="Paste your content here..." value={content} onChange={(e) => setContent(e.target.value)} className="w-full h-64 px-4 py-2 rounded-lg border dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white resize-none" />
       </div>
-      {error && <p className="text-red-500 text-sm">{error}</p>}
-      <button type="submit" className="bg-neutral-700 text-neutral-300 mx-auto px-4 py-2 rounded">
-        Add to Cache
+      <button type="submit" disabled={isLoading} className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50">
+        {isLoading ? "Creating..." : "Create Paste"}
       </button>
     </form>
   );

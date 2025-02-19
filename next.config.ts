@@ -1,15 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    serverActions: true,
+    serverActions: {
+      allowedOrigins: ["localhost:3000"],
+    },
   },
   // Add custom SSL configuration for Supabase
-  webpack: (config, { isServer }) => {
+  webpack: (config: any, { isServer }: { isServer: boolean }) => {
     if (isServer) {
       config.resolve = {
         ...config.resolve,
         fallback: {
-          ...config.resolve.fallback,
+          ...config.resolve?.fallback,
           tls: false,
           net: false,
           fs: false,
@@ -20,4 +22,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;
