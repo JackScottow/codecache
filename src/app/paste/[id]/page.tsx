@@ -5,7 +5,13 @@ import ShareButton from "@/components/ShareButton";
 import { Metadata } from "next";
 
 interface PageProps {
-  params: Promise<{ id: string }> | { id: string };
+  params:
+    | {
+        id: string;
+      }
+    | Promise<{
+        id: string;
+      }>;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
