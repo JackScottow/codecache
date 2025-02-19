@@ -6,12 +6,12 @@ import { Metadata } from "next";
 
 interface PageProps {
   params:
-    | {
-        id: string;
-      }
     | Promise<{
         id: string;
-      }>;
+      }>
+    | {
+        id: string;
+      };
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
