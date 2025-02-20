@@ -1,7 +1,11 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
+import { unstable_noStore } from "next/cache";
 
 export default async function RecentPastes() {
+  // Prevent caching of this component
+  unstable_noStore();
+
   const recentPastes = await prisma.paste.findMany({
     take: 5,
     orderBy: {
