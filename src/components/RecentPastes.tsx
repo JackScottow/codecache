@@ -15,8 +15,8 @@ export default async function RecentPastes() {
 
   if (recentPastes.length === 0) {
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 text-center">
-        <p className="text-gray-500 dark:text-gray-400">No pastes yet</p>
+      <div className="bg-white/50 dark:bg-stone-600/50 backdrop-blur-sm rounded-lg p-6 text-center shadow-md border border-stone-300 dark:border-stone-500">
+        <p className="text-stone-700 dark:text-stone-200">No pastes yet</p>
       </div>
     );
   }
@@ -24,10 +24,10 @@ export default async function RecentPastes() {
   return (
     <div className="space-y-3">
       {recentPastes.map((paste) => (
-        <Link key={paste.id} href={`/paste/${paste.id}`} className="block bg-white dark:bg-gray-800 rounded-lg p-4 hover:ring-2 ring-blue-500 transition-all">
-          <h3 className="font-medium text-gray-900 dark:text-white mb-1">{paste.title || "Untitled"}</h3>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">{new Date(paste.createdAt).toLocaleString()}</p>
-          <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-2">{paste.content}</p>
+        <Link key={paste.id} href={`/paste/${paste.id}`} className="block bg-stone-500/50 backdrop-blur-sm rounded-lg p-4 transition-all shadow-sm hover:shadow-md border border-stone-500 hover:border-stone-400 hover:bg-stone-600/70">
+          <h3 className="font-medium text-stone-800 dark:text-stone-100 mb-1">{paste.title || "Untitled"}</h3>
+          <p className="text-sm text-stone-600 dark:text-stone-300 mb-2">{new Date(paste.createdAt).toLocaleString()}</p>
+          <p className="text-stone-700 dark:text-stone-200 text-sm line-clamp-2">{paste.content}</p>
         </Link>
       ))}
     </div>

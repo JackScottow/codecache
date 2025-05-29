@@ -16,11 +16,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-gray-50 dark:bg-gray-900`}>
-        <nav className="border-b border-gray-200 dark:border-gray-800">
+      <body className={`${inter.className} bg-gradient-to-b from-stone-200 via-stone-300 to-stone-400 dark:from-stone-600 dark:via-stone-700 dark:to-stone-800 min-h-screen`}>
+        <nav className="border-b border-stone-200 dark:border-stone-600 bg-white/30 dark:bg-stone-800/30 backdrop-blur-sm">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between h-16 items-center">
-              <Link href="/" className="text-xl font-bold text-gray-900 dark:text-white">
+              <Link href="/" className="text-xl font-bold text-stone-800 dark:text-stone-100">
                 CodeCache
               </Link>
             </div>

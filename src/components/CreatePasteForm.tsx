@@ -33,14 +33,14 @@ export default function CreatePasteForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4">
+    <form onSubmit={onSubmit} className="space-y-4 p-6 ">
       <div>
-        <input type="text" placeholder="Title (optional)" value={title} onChange={(e) => setTitle(e.target.value)} className="w-full px-4 py-2 rounded-lg border dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white" />
+        <input type="text" placeholder="Title (optional)" value={title} onChange={(e) => setTitle(e.target.value)} className="w-full px-4 py-2 rounded-lg border border-stone-500 bg-stone-500/50 text-stone-100 shadow-sm focus:ring-2 focus:ring-stone-400 outline-none transition-all" />
       </div>
       <div>
-        <textarea required placeholder="Paste your content here..." value={content} onChange={(e) => setContent(e.target.value)} className="w-full h-64 px-4 py-2 rounded-lg border dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white resize-none" />
+        <textarea required placeholder="Paste your content here..." value={content} onChange={(e) => setContent(e.target.value)} className="w-full h-64 px-4 py-2 rounded-lg border border-stone-500 bg-stone-500/50 text-stone-100 resize-none shadow-sm focus:ring-2 focus:ring-stone-400 outline-none transition-all" />
       </div>
-      <button type="submit" disabled={isLoading} className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50">
+      <button type="submit" disabled={isLoading} className="w-full px-4 py-2 bg-stone-400 text-stone-900 rounded-lg hover:bg-stone-500 hover:text-stone-50 disabled:opacity-50 shadow-sm hover:shadow transition-all">
         {isLoading ? "Creating..." : "Create Paste"}
       </button>
     </form>
